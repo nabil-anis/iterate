@@ -1,5 +1,5 @@
 /**
- * Stitch Cybersecurity Platform - UI Logic
+ * MAESTER Cybersecurity Platform - UI Logic
  */
 
 document.addEventListener('DOMContentLoaded', () => {
