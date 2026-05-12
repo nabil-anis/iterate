@@ -1,0 +1,34 @@
+[project]
+name = "unified-cybersecurity-platform"
+version = "1.0.0"
+description = "Unified Multi-Agent Cybersecurity Platform - 8-layer architecture"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.110.0",
+    "uvicorn[standard]>=0.29.0",
+    "pydantic>=2.6.0",
+    "pydantic-settings>=2.2.0",
+    "sqlalchemy>=2.0.27",
+    "asyncpg>=0.29.0",
+    "alembic>=1.13.0",
+    "redis>=5.0.0",
+    "httpx>=0.27.0",
+    "aio-pika>=9.4.0",
+    "prometheus-client>=0.19.0",
+    "pyyaml>=6.0",
+    "cryptography>=42.0.0",
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "python-multipart>=0.0.9",
+    "openai>=1.16.0",
+    "scikit-learn>=1.4.0",
+    "pandas>=2.2.0",
+    "numpy>=1.26.0",
+    "nuclei-sdk>=1.1.0",
+    "shodan>=1.29.0",
+    "censys>=2.2.0",
+    "tenable>=1.0.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["platform*"]

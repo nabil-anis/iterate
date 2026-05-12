@@ -1,0 +1,93 @@
+@pytest.mark.asyncio
+async def test_notification_service():
+    """Test notification service."""
+    service = NotificationService()
+    
+    # Register a mock webhook channel
+    await service.register_channel(NotificationChannel.WEBHOOK, {
+        "url": "http://localhost:9999/webhook",
+    })
+    
+    # Test send notification
+    result = await service.send(
+        title="Test Alert",
+        message="This is a test notification",
+        priority=NotificationPriority.HIGH,
+        channels=[NotificationChannel.WEBHOOK],
+    )
+    
+    assert result["notification_id"] is not None
+    assert result["priority"] == "high"
+
+
+@pytest.mark.asyncio
+async def test_notification_with_multiple_channels():
+    """Test notification to multiple channels."""
+    service = NotificationService()
+    
+    # Register multiple channels
+    await service.register_channel(NotificationChannel.WEBHOOK, {"url": "http://localhost:9999/webhook"})
+    await service.register_channel(NotificationChannel.SLACK, {"webhook_url": "http://localhost:9999/slack"})
+    
+    result = await service.send(
+        title="Multi-Channel Test",
+        message="Testing multiple channels",
+        priority=NotificationPriority.CRITICAL,
+        channels=[NotificationChannel.WEBHOOK, NotificationChannel.SLACK],
+    )
+    
+    assert "webhook" in result["channels"]
+    assert "slack" in result["channels"]
+
+
+@pytest.mark.asyncio
+async def test_notification_history():
+    """Test notification history tracking."""
+    service = NotificationService()
+    
+    await service.register_channel(NotificationChannel.WEBHOOK, {"url": "http://localhost:9999/webhook"})
+    
+    # Send multiple notifications
+    for i in range(5):
+        await service.send(
+            title=f"Test {i}",
+            message=f"Message {i}",
+            priority=NotificationPriority.MEDIUM,
+        )
+    
+    history = service.get_history(limit=3)
+    assert len(history) == 3
+
+
+@pytest.mark.asyncio
+async def test_siem_integration():
+    """Test SIEM integration."""
+    from platform.enterprise.siem_integration import SIEMIntegration
+    
+    siem = SIEMIntegration()
+    
+    # Register a log file sink
+    import tempfile
+    import os
+    with tempfile.NamedTemporaryFile(suffix=".json", delete=False, mode="w") as f:
+        f.write("[]")
+        temp_path = f.name
+    
+    await siem.register_sink("test_log", "logfile", {"path": temp_path, "format": "json"})
+    
+    # Send some findings
+    findings = [
+        {
+            "id": "F001",
+            "title": "Test Finding",
+            "severity": "high",
+            "target": "test.example.com",
+            "description": "Test description",
+        }
+    ]
+    
+    result = await siem.send_findings_batch(findings)
+    assert result["total"] == 1
+    assert result["sent"] == 1
+    
+    os.unlink(temp_path)

@@ -1,0 +1,107 @@
+self._indicators: Dict[str, List[str]] = {}  # indicator -> intel IDs
+        self._tags: Dict[str, List[str]] = {}  # tag -> intel IDs
+        self._cve_cache: Dict[str, Dict] = {}
+        self._ioc_store: Dict[str, Dict] = {}
+        self._recent_entries: List[ThreatIntel] = []
+        self._max_cache_size = 10000
+    
+    async def ingest_intel(self, intel_data: ThreatIntel) -> str:
+        """Ingest a new threat intelligence entry."""
+        intel_id = intel_data.id or str(uuid4())
+        intel_data.id = intel_id
+        
+        self._intel[intel_id] = intel_data
+        
+        # Index by indicator
+        key = f"{intel_data.indicator_type}:{intel_data.indicator.lower()}"
+        if key not in self._indicators:
+            self._indicators[key] = []
+        self._indicators[key].append(intel_id)
+        
+        # Index by tags
+        for tag in intel_data.tags:
+            tag_key = tag.lower()
+            if tag_key not in self._tags:
+                self._tags[tag_key] = []
+            self._tags[tag_key].append(intel_id)
+        
+        # Add to recent
+        self._recent_entries.append(intel_data)
+        if len(self._recent_entries) > 100:
+            self._recent_entries = self._recent_entries[-100:]
+        
+        # Maintain cache size
+        if len(self._intel) > self._max_cache_size:
+            self._evict_oldest()
+        
+        logger.info(f"Ingested threat intel {intel_id}: {intel_data.indicator}")
+        return intel_id
+    
+    async def search_by_indicator(self, indicator_type: str, value: str) -> List[ThreatIntel]:
+        """Search intelligence by indicator."""
+        key = f"{indicator_type}:{value.lower()}"
+        intel_ids = self._indicators.get(key, [])
+        return [self._intel[i] for i in intel_ids if i in self._intel]
+    
+    async def search_by_tag(self, tag: str) -> List[ThreatIntel]:
+        """Search intelligence by tag."""
+        tag_key = tag.lower()
+        intel_ids = self._tags.get(tag_key, [])
+        return [self._intel[i] for i in intel_ids if i in self._intel]
+    
+    async def correlate_with_findings(self, findings: List[Dict]) -> Dict[str, Any]:
+        """Correlate threat intelligence with scan findings."""
+        correlations = []
+        
+        for finding in findings:
+            finding_text = f"{finding.get('title', '')} {finding.get('description', '')}".lower()
+            
+            for intel_id, intel in self._intel.items():
+                if intel.indicator.lower() in finding_text:
+                    correlations.append({
+                        "finding_id": finding.get("id"),
+                        "intel_id": intel_id,
+                        "indicator": intel.indicator,
+                        "intel_source": intel.source,
+                        "confidence": intel.confidence,
+                        "severity_match": finding.get("severity") == intel.severity.value if hasattr(intel.severity, 'value') else False,
+                    })
+        
+        return {
+            "total_findings": len(findings),
+            "total_correlated": len(correlations),
+            "correlations": correlations[:50],
+            "high_confidence_matches": sum(1 for c in correlations if c["confidence"] >= 0.8),
+            "summary": f"Correlated {len(correlations)} findings with threat intelligence data",
+        }
+    
+    async def get_recent_intel(self, hours: int = 24) -> List[ThreatIntel]:
+        """Get recently ingested intelligence."""
+        cutoff = datetime.utcnow() - timedelta(hours=hours)
+        return [
+            i for i in self._recent_entries
+            if i.first_seen >= cutoff
+        ]
+    
+    async def get_stats(self) -> Dict[str, Any]:
+        """Get repository statistics."""
+        severity_counts = {}
+        for intel in self._intel.values():
+            sev = intel.severity.value if hasattr(intel.severity, 'value') else str(intel.severity)
+            severity_counts[sev] = severity_counts.get(sev, 0) + 1
+        
+        return {
+            "total_intel_entries": len(self._intel),
+            "unique_indicators": len(self._indicators),
+            "unique_tags": len(self._tags),
+            "severity_distribution": severity_counts,
+            "sources": list(set(i.source for i in self._intel.values())),
+            "recent_entries": len(self._recent_entries),
+        }
+    
+    def _evict_oldest(self):
+        """Evict oldest entries when cache is full."""
+        sorted_items = sorted(self._intel.items(), key=lambda x: x[1].last_seen)
+        evict_count = len(self._intel) - (self._max_cache_size // 2)
+        for intel_id, _ in sorted_items[:evict_count]:
+            del self._intel[intel_id]

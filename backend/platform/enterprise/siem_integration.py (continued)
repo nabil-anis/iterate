@@ -1,0 +1,42 @@
+async def _send_syslog(self, config: Dict, events: List[Dict]) -> int:
+        """Send events via syslog."""
+        import socket
+        
+        host = config.get("host", "127.0.0.1")
+        port = config.get("port", 514)
+        protocol = config.get("protocol", "udp")
+        
+        sock_family = socket.AF_INET
+        sock_type = socket.SOCK_DGRAM if protocol == "udp" else socket.SOCK_STREAM
+        
+        sent = 0
+        for event in events:
+            message = f"<134>1 {datetime.utcnow().isoformat()} cybersecurity-platform security: {json.dumps(event)}"
+            try:
+                sock = socket.socket(sock_family, sock_type)
+                if protocol == "tcp":
+                    sock.connect((host, port))
+                sock.sendto(message.encode(), (host, port))
+                sock.close()
+                sent += 1
+            except Exception as e:
+                logger.error(f"Failed to send syslog message: {e}")
+        
+        return sent
+    
+    async def _send_webhook(self, config: Dict, events: List[Dict]) -> int:
+        """Send events via webhook."""
+        import httpx
+        
+        url = config.get("url", "")
+        headers = config.get("headers", {})
+        
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            response = await client.post(url, json={"findings": events}, headers=headers)
+            if response.status_code not in (200, 201, 202, 204):
+                raise Exception(f"Webhook returned {response.status_code}")
+        
+        return len(events)
+    
+    def get_stats(self) -> Dict:
+        return {**self._stats, "sinks": len(self._sinks), "queue_size": self._send_queue.qsize()}

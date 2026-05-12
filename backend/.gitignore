@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+poetry.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Database
+*.db
+*.sqlite3
+db/init.sql
+
+# Data
+data/
+reports/
+*.log
+uploads/
+downloads/
+
+# Build
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+bin/
+lib/
+include/
+man/
+
+# Testing
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.coverage
+.cov
+.coverage.*
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# K8s
+kubeconfig*
+
+# OS
+.DS_Store
+Thumbs.db

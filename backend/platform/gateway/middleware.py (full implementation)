@@ -1,0 +1,154 @@
+"""API Gateway middleware for cross-cutting concerns."""
+import time
+import hashlib
+import json
+import logging
+from typing import Callable, Dict, Optional, Tuple
+from datetime import datetime, timedelta
+from uuid import uuid4
+
+from fastapi import Request, Response, HTTPException, status
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.types import ASGIApp
+from jose import jwt, JWTError
+
+from platform.config import settings
+
+logger = logging.getLogger(__name__)
+
+
+class RateLimitMiddleware(BaseHTTPMiddleware):
+    """Rate limiting using in-memory sliding window.
+    In production, replace with Redis-backed implementation.
+    """
+    
+    def __init__(self, app: ASGIApp, redis_client=None):
+        super().__init__(app)
+        self.redis = redis_client
+        self._local_counts: Dict[str, list] = {}
+        self._limit = settings.RATE_LIMIT_PER_MINUTE
+        self._window = 60
+    
+    async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        if not request.url.path.startswith("/api/"):
+            return await call_next(request)
+        
+        client_ip = request.client.host if request.client else "unknown"
+        api_key = request.headers.get(settings.API_KEY_HEADER, client_ip)
+        key = f"ratelimit:{api_key}"
+        
+        now = time.time()
+        
+        # Clean old entries
+        if key in self._local_counts:
+            self._local_counts[key] = [
+                t for t in self._local_counts[key] 
+                if now - t < self._window
+            ]
+        else:
+            self._local_counts[key] = []
+        
+        # Check limit
+        if len(self._local_counts.get(key, [])) >= self._limit:
+            raise HTTPException(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                detail=f"Rate limit exceeded. Max {self._limit} requests per minute.",
+                headers={"Retry-After": str(int(self._window - (now - self._local_counts[key][0])))},
+            )
+        
+        self._local_counts[key].append(now)
+        
+        response = await call_next(request)
+        response.headers["X-RateLimit-Limit"] = str(self._limit)
+        response.headers["X-RateLimit-Remaining"] = str(
+            max(0, self._limit - len(self._local_counts[key]))
+        )
+        return response
+
+
+class AuthMiddleware(BaseHTTPMiddleware):
+    """Authentication and authorization middleware."""
+    
+    def __init__(self, app: ASGIApp):
+        super().__init__(app)
+        self._public_paths = {
+            "/health", "/docs", "/openapi.json", "/redoc",
+            "/api/v1/auth/login", "/api/v1/auth/register",
+        }
+    
+    async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        path = request.url.path
+        if path in self._public_paths or path.startswith(("/docs/", "/redoc/")):
+            return await call_next(request)
+        
+        if not path.startswith("/api/"):
+            return await call_next(request)
+        
+        # Check API Key
+        api_key = request.headers.get(settings.API_KEY_HEADER)
+        auth_header = request.headers.get("Authorization", "")
+        
+        if api_key:
+            request.state.api_key = api_key
+            request.state.user = "api_user"
+        elif auth_header.startswith("Bearer "):
+            token = auth_header[7:]
+            try:
+                payload = jwt.decode(
+                    token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM]
+                )
+                request.state.user = payload.get("sub", "unknown")
+                request.state.roles = payload.get("roles", [])
+            except JWTError as e:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail=f"Invalid authentication token: {str(e)}",
+                )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Authentication required. Provide X-API-Key header or Bearer token.",
+            )
+        
+        return await call_next(request)
+
+
+class AuditMiddleware(BaseHTTPMiddleware):
+    """Immutable audit logging for all API requests."""
+    
+    def __init__(self, app: ASGIApp, audit_logger=None):
+        super().__init__(app)
+        self.audit_logger = audit_logger or logger
+    
+    async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        audit_id = str(uuid4())
+        start_time = time.time()
+        
+        body = b""
+        try:
+            body = await request.body()
+        except Exception:
+            pass
+        
+        response = await call_next(request)
+        
+        duration = time.time() - start_time
+        
+        audit_entry = {
+            "audit_id": audit_id,
+            "timestamp": datetime.utcnow().isoformat(),
+            "method": request.method,
+            "path": request.url.path,
+            "query_params": str(request.url.query),
+            "client_ip": request.client.host if request.client else "unknown",
+            "user_agent": request.headers.get("user-agent", ""),
+            "user": getattr(request.state, "user", "anonymous"),
+            "status_code": response.status_code,
+            "duration_ms": round(duration * 1000, 2),
+            "body_hash": hashlib.sha256(body).hexdigest() if body else None,
+        }
+        
+        self.audit_logger.info(f"AUDIT: {json.dumps(audit_entry)}")
+        response.headers["X-Audit-ID"] = audit_id
+        
+        return response

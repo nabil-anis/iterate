@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initDrawer();
     initInteractiveElements();
+    initChatMock();
+    initVAPTMock();
 });
 
 /**
@@ -194,5 +196,170 @@ function initInteractiveElements() {
             alertItems.forEach(a => a.classList.remove('active'));
             item.classList.add('active');
         });
+    });
+}
+
+/**
+ * Handle Mock Chat Interactions
+ */
+function initChatMock() {
+    const chatInput = document.querySelector('.chat-input');
+    const sendBtn = document.querySelector('.send-btn');
+    const chatStream = document.querySelector('.chat-stream');
+
+    if (!chatInput || !sendBtn || !chatStream) return;
+
+    const sendMessage = () => {
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        // Clear input
+        chatInput.value = '';
+
+        // Create User Message
+        const userHtml = `
+            <div class="chat-bubble user" style="animation: fade-in 0.3s ease;">
+                <div class="body-m">${text}</div>
+            </div>
+        `;
+        chatStream.insertAdjacentHTML('beforeend', userHtml);
+        chatStream.scrollTop = chatStream.scrollHeight;
+
+        // Create Typing Indicator
+        const typingId = 'typing-' + Date.now();
+        const typingHtml = `
+            <div id="${typingId}" class="chat-card system" style="animation: fade-in 0.3s ease;">
+                <div class="chat-card-header">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--apple-blue)"><circle cx="12" cy="12" r="10"></circle></svg>
+                    <span style="font-weight: 600;">MAESTER Agent</span>
+                </div>
+                <div class="chat-card-body body-m" style="color: var(--apple-gray-1);">
+                    <span style="font-style: italic;">Agent is analyzing your request...</span>
+                </div>
+            </div>
+        `;
+        
+        setTimeout(async () => {
+            chatStream.insertAdjacentHTML('beforeend', typingHtml);
+            chatStream.scrollTop = chatStream.scrollHeight;
+            
+            // Call Real Backend API
+            try {
+                const res = await fetch('http://localhost:8000/api/v1/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text })
+                });
+                const data = await res.json();
+                
+                const typingEl = document.getElementById(typingId);
+                if (typingEl) typingEl.remove();
+                
+                let actionsHtml = '';
+                if (data.actions && data.actions.length > 0) {
+                    actionsHtml = '<div class="chat-card-footer">';
+                    data.actions.forEach(action => {
+                        const style = action.label.startsWith('Yes') || action.label.startsWith('Generate') 
+                            ? 'background: var(--surface-white); border: 1px solid var(--separator); padding: 4px 12px; font-size: 13px;'
+                            : 'background: transparent; color: var(--apple-blue); padding: 4px 12px; font-size: 13px;';
+                        actionsHtml += `<button class="btn" style="${style}">${action.label}</button>`;
+                    });
+                    actionsHtml += '</div>';
+                }
+                
+                const responseHtml = `
+                    <div class="chat-card system" style="animation: fade-in 0.3s ease;">
+                        <div class="chat-card-header">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--apple-blue)"><circle cx="12" cy="12" r="10"></circle></svg>
+                            <span style="font-weight: 600;">MAESTER Agent</span>
+                        </div>
+                        <div class="chat-card-body body-m" style="color: var(--apple-gray-1);">
+                            ${data.response}
+                        </div>
+                        ${actionsHtml}
+                    </div>
+                `;
+                chatStream.insertAdjacentHTML('beforeend', responseHtml);
+                chatStream.scrollTop = chatStream.scrollHeight;
+            } catch (err) {
+                console.error("Backend Error:", err);
+                const typingEl = document.getElementById(typingId);
+                if (typingEl) typingEl.remove();
+                chatStream.insertAdjacentHTML('beforeend', `<div class="chat-card system"><div class="chat-card-body">Error connecting to backend: ${err.message}. Ensure the FastAPI server is running.</div></div>`);
+            }
+        }, 300);
+    };
+
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+}
+
+/**
+ * Handle Mock VAPT Execution
+ */
+function initVAPTMock() {
+    const launchBtn = document.querySelector('#vapt .btn-primary');
+    const targetInput = document.querySelector('#vapt input[placeholder="Add IP or domain..."]');
+    const tagContainer = document.querySelector('#vapt .tag-input-container');
+    const progressScore = document.querySelector('#vapt .risk-score-value');
+    const progressRing = document.querySelector('#vapt circle:nth-child(2)');
+    const phaseText = document.querySelector('#vapt .overline:nth-of-type(2)'); // Approx selector for "Phase: Exploitation"
+    const exploitCard = document.querySelector('#vapt .card[style*="border-color: transparent"]'); // Try to find running status
+
+    if (!launchBtn || !targetInput) return;
+
+    launchBtn.addEventListener('click', async () => {
+        // Add target if input has text
+        const target = targetInput.value.trim();
+        if (target) {
+            const chipHtml = `<span class="chip" style="box-shadow: none; padding: 4px 8px; animation: fade-in 0.3s ease;"><span class="mono">${target}</span> <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>`;
+            targetInput.insertAdjacentHTML('beforebegin', chipHtml);
+            targetInput.value = '';
+        }
+
+        // Animate Button
+        launchBtn.innerHTML = '<svg class="spinner" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-linecap="round"></circle></svg> Initiating Scanner...';
+        launchBtn.disabled = true;
+        launchBtn.style.opacity = '0.7';
+
+        try {
+            // Call Backend to start scan
+            const res = await fetch('http://localhost:8000/api/v1/scan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ target: target || 'demo.maester.io', type: 'network' })
+            });
+            const data = await res.json();
+            
+            if (data.scan_id) {
+                // Start polling
+                const interval = setInterval(async () => {
+                    const statusRes = await fetch(`http://localhost:8000/api/v1/scan/${data.scan_id}`);
+                    const statusData = await statusRes.json();
+                    
+                    if (progressScore) progressScore.textContent = `${statusData.progress}%`;
+                    if (progressRing) {
+                        const offset = 465 - (465 * (statusData.progress / 100));
+                        progressRing.style.strokeDashoffset = offset;
+                    }
+                    if (phaseText) phaseText.textContent = `Phase: ${statusData.phase}`;
+                    
+                    if (statusData.status === 'Completed') {
+                        clearInterval(interval);
+                        launchBtn.innerHTML = 'Scan Completed';
+                        launchBtn.style.background = 'var(--low-green)';
+                        launchBtn.style.color = 'white';
+                    }
+                }, 1000);
+            }
+        } catch (err) {
+            console.error(err);
+            launchBtn.innerHTML = 'API Error';
+        }
     });
 }
