@@ -171,13 +171,19 @@ body {
 
 /* Top Bar (Zone B) */
 .top-bar {
-    height: var(--topbar-height);
-    background-color: var(--pure-white);
-    border-bottom: 1px solid var(--separator);
-    display: flex;
-    align-items: center;
     padding: 0 24px;
     flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.menu-toggle {
+    display: none;
+    margin-right: 16px;
 }
 
 .breadcrumb {
@@ -1406,23 +1412,133 @@ body {
     background: var(--apple-blue-dk);
 }
 
-/* Responsive */
-@media (max-width: 1279px) {
-    .sidebar { width: var(--sidebar-collapsed-width); }
-    .sidebar-label, .sidebar-item span { display: none; }
-    .sidebar-item { padding: 0; justify-content: center; }
-    .sidebar-item .icon { margin-right: 0; }
-    .bento-grid { grid-template-columns: repeat(8, 1fr); }
-    .span-3 { grid-column: span 4; }
-    .span-4 { grid-column: span 8; }
-    .span-6 { grid-column: span 8; }
+/* Responsive Adjustments for Apple Ecosystem */
+
+/* iPad & Smaller Laptops */
+@media (max-width: 1194px) {
+    :root {
+        --sidebar-width: 80px;
+    }
+    .sidebar-label, .sidebar-item span, .logo-text {
+        display: none;
+    }
+    .sidebar-item {
+        justify-content: center;
+        padding: 0;
+    }
+    .sidebar-item .icon {
+        margin-right: 0;
+        width: 24px;
+        height: 24px;
+    }
+    .sidebar-header {
+        justify-content: center;
+    }
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .span-3, .span-4, .span-6 {
+        grid-column: span 1;
+    }
+    .span-8 {
+        grid-column: span 2;
+    }
 }
 
-@media (max-width: 767px) {
-    .sidebar { display: none; }
-    .content-canvas { padding: 16px; }
-    .bento-grid { grid-template-columns: 1fr; }
-    .span-3, .span-4, .span-6, .span-12 { grid-column: span 1; }
-    .detail-drawer { width: 100vw; right: -100vw; }
-    .detail-drawer.active { transform: translateX(-100vw); }
+/* iPhone & Small Devices */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+    .sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 64px;
+        flex-direction: row;
+        z-index: 1000;
+        padding: 0;
+        border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .sidebar-header, .sidebar-label, .sidebar-section:not(:first-of-type) {
+        display: none;
+    }
+    .sidebar-section {
+        flex-direction: row;
+        width: 100%;
+        padding: 0;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .sidebar-item {
+        flex-direction: column;
+        height: 100%;
+        padding: 8px 0;
+        font-size: 10px;
+        gap: 4px;
+        border-left: none;
+        border-top: 3px solid transparent;
+        flex: 1;
+    }
+    .sidebar-item.active {
+        border-top-color: var(--apple-blue);
+        background: transparent;
+    }
+    .sidebar-item span {
+        display: block;
+    }
+    .sidebar-item .icon {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .top-bar {
+        padding: 0 16px;
+    }
+    .search-container {
+        display: none; /* Hide search on mobile top bar, put it in content if needed */
+    }
+    .breadcrumb {
+        font-size: 13px;
+    }
+
+    .content-canvas {
+        padding: 20px;
+        padding-bottom: 80px; /* Room for bottom nav */
+    }
+
+    .split-layout, .three-col-layout {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .display-xl { font-size: 32px; }
+    .display-l { font-size: 24px; }
+    
+    .detail-drawer {
+        width: 100vw;
+        right: -100vw;
+    }
+}
+
+/* Large Displays (iMac, Studio Display) */
+@media (min-width: 2000px) {
+    .view-section {
+        max-width: 1800px;
+    }
+    .bento-grid {
+        gap: 40px;
+    }
+}
+
+/* Animation Refinements */
+.view-section.active {
+    display: block;
+    animation: apple-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes apple-in {
+    from { opacity: 0; transform: scale(0.98) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }

@@ -63,16 +63,21 @@ function initNavigation() {
 
             // Handle view switching
             views.forEach(view => {
-                view.classList.toggle('active', view.id === targetViewId);
-                // Special case for chat view display
+                const isActive = view.id === targetViewId;
+                view.classList.toggle('active', isActive);
                 if (view.id === 'chat') {
-                    view.style.display = view.id === targetViewId ? 'block' : 'none';
+                    view.style.display = isActive ? 'flex' : 'none';
                 }
             });
 
             // Update Breadcrumb
-            const section = item.closest('.sidebar-section').querySelector('.sidebar-label').textContent;
+            const sectionEl = item.closest('.sidebar-section')?.querySelector('.sidebar-label');
+            const section = sectionEl ? sectionEl.textContent : 'Platform';
             breadcrumb.textContent = `${section.charAt(0) + section.slice(1).toLowerCase()} / ${item.querySelector('span:not(.badge)').textContent}`;
+            
+            // Close drawer if open
+            document.getElementById('drawer-backdrop').classList.remove('active');
+            document.getElementById('detail-drawer').classList.remove('active');
         });
     });
 }
@@ -164,17 +169,33 @@ function initVAPTEngine() {
     const targetInput = document.querySelector('#vapt input[placeholder="Add IP or domain..."]');
     const tagContainer = document.querySelector('#vapt .tag-input-container');
 
+    if (!targetInput) return;
+
+    targetInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && targetInput.value.trim()) {
+            const val = targetInput.value.trim();
+            const chip = document.createElement('span');
+            chip.className = 'chip';
+            chip.innerHTML = `<span class="mono">${val}</span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="margin-left:8px; cursor:pointer;" onclick="this.parentElement.remove()"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+            tagContainer.insertBefore(chip, targetInput);
+            targetInput.value = '';
+        }
+    });
+
     launchBtn.addEventListener('click', async () => {
-        const targets = Array.from(tagContainer.querySelectorAll('.chip .mono')).map(c => c.textContent);
-        if (targetInput.value) targets.push(targetInput.value);
+        const chips = Array.from(tagContainer.querySelectorAll('.chip .mono')).map(c => c.textContent);
+        if (targetInput.value) chips.push(targetInput.value);
+        if (chips.length === 0) return alert('Please enter at least one target.');
         
         const res = await apiFetch('/scan', {
             method: 'POST',
-            body: JSON.stringify({ target: targets.join(','), type: 'network' })
+            body: JSON.stringify({ target: chips.join(','), type: 'network' })
         });
 
         if (res && res.scan_id) {
             launchBtn.disabled = true;
+            launchBtn.classList.add('btn-secondary');
+            launchBtn.classList.remove('btn-primary');
             launchBtn.textContent = 'Scan in Progress...';
             
             const poll = setInterval(async () => {
@@ -183,20 +204,22 @@ function initVAPTEngine() {
 
                 const progressText = document.querySelector('#vapt .risk-score-value');
                 const progressRing = document.querySelector('#vapt .risk-score-container svg circle:last-child');
-                const phaseText = document.querySelector('#vapt .overline:nth-of-type(2)'); // Adjust selector as needed
+                const phaseText = document.querySelector('#vapt .overline:nth-of-type(2)');
 
                 if (progressText) progressText.textContent = `${status.progress}%`;
                 if (progressRing) {
                     const circumference = 465; // 2 * PI * 74
                     progressRing.style.strokeDashoffset = circumference - (circumference * status.progress / 100);
                 }
+                if (phaseText) phaseText.textContent = `Phase: ${status.phase}`;
 
                 if (status.status === 'Completed') {
                     clearInterval(poll);
                     launchBtn.disabled = false;
-                    launchBtn.textContent = 'Launch Assessment';
-                    launchBtn.style.background = 'var(--low-green)';
-                    setTimeout(() => launchBtn.style.background = '', 3000);
+                    launchBtn.classList.add('btn-primary');
+                    launchBtn.classList.remove('btn-secondary');
+                    launchBtn.textContent = 'Assessment Finished (View Findings)';
+                    launchBtn.onclick = () => document.querySelector('.sidebar-item[data-view="findings"]').click();
                 }
             }, 1000);
         }
