@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 
 app = FastAPI(title="MAESTER Production Execution Engine")
+from .routers import router as api_router
 
 app.add_middleware(
     CORSMiddleware,
@@ -19,7 +20,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+app.include_router(api_router)
 # Global memory for the mock database/process manager
 scans_db = {}
 tasks_db = {}
