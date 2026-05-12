@@ -3,8 +3,8 @@ import pytest
 from datetime import datetime, timedelta
 from uuid import uuid4
 
-from platform.intelligence.repository import IntelligenceRepository, ThreatIntel, IntelSeverity, IntelType
-from platform.intelligence.ioc_manager import IOCManager, IOC
+from app.intelligence.repository import IntelligenceRepository, ThreatIntel, IntelSeverity, IntelType
+from app.intelligence.ioc_manager import IOCManager, IOC
 
 
 @pytest.mark.asyncio

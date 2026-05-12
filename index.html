@@ -384,9 +384,12 @@
                                 </div>
                             </div>
 
-                            <button class="btn btn-secondary add-task-btn" style="width: 100%; margin-top: 24px;">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Add Task
-                            </button>
+                            <div class="add-task-container" style="margin-top: 24px; display: flex; gap: 8px;">
+                                <input type="text" id="red-team-task-input" class="search-input" style="flex: 1; padding: 12px; border-radius: 8px;" placeholder="Enter command to execute (e.g. ping -c 4 maester.io)">
+                                <button id="dispatch-task-btn" class="btn btn-primary" style="padding: 0 20px;">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Dispatch
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Right 40%: Agent Output Stream -->

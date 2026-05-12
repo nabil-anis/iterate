@@ -1,0 +1,4 @@
+"""Celery application configuration."""
+from app.worker import celery_app
+
+__all__ = ["celery_app"]

@@ -4,7 +4,7 @@ import asyncio
 from typing import AsyncGenerator, Generator
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from platform.config import Settings
+from app.config import Settings
 
 
 @pytest.fixture

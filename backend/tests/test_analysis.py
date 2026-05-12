@@ -3,8 +3,8 @@ import pytest
 from unittest.mock import AsyncMock, patch
 from datetime import datetime
 
-from platform.analysis import UnifiedAnalysisEngine
-from platform.models.finding import Finding, FindingSeverity, FindingStatus
+from app.analysis import UnifiedAnalysisEngine
+from app.models.finding import Finding, FindingSeverity, FindingStatus
 
 
 @pytest.fixture

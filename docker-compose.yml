@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: maester-platform
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite+aiosqlite:///./data/maester.db
+      - ENVIRONMENT=production
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+    env_file:
+      - backend/.env
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

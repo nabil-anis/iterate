@@ -3,9 +3,9 @@ import pytest
 from unittest.mock import AsyncMock, patch
 from datetime import datetime
 
-from platform.orchestrator import OrchestrationEngine
-from platform.models.scan import Scan, ScanStatus, ScanTarget
-from platform.config import Settings
+from app.orchestrator import OrchestrationEngine
+from app.models.scan import Scan, ScanStatus, ScanTarget
+from app.config import Settings
 
 
 @pytest.mark.asyncio

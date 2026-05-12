@@ -3,7 +3,7 @@ import pytest
 from httpx import AsyncClient, ASGITransport
 from unittest.mock import AsyncMock, patch
 
-from platform.main import app
+from app.main import app
 
 
 @pytest.fixture

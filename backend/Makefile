@@ -18,7 +18,7 @@ install:
 	pip install -r requirements-dev.txt 2>/dev/null || true
 
 dev:
-	uvicorn platform.main:app --host 0.0.0.0 --port 8000 --reload
+	uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 test:
 	pytest tests/ -v --cov=platform --cov-report=term --cov-report=html
@@ -38,7 +38,7 @@ build:
 	docker build -t cybersec-platform:latest .
 
 run:
-	uvicorn platform.main:app --host 0.0.0.0 --port 8000 --workers 4
+	uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
 
 docker-up:
 	docker-compose up -d --build
@@ -53,7 +53,7 @@ migration-create:
 	@read -p "Migration name: " name; alembic revision --autogenerate -m "$$name"
 
 worker:
-	celery -A platform.worker worker --loglevel=info --concurrency=4
+	celery -A app.worker worker --loglevel=info --concurrency=4
 
 flower:
-	celery -A platform.worker flower --port=5555
+	celery -A app.worker flower --port=5555

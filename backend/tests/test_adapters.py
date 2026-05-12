@@ -3,11 +3,11 @@ import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 from datetime import datetime
 
-from platform.adapters.base import BaseToolAdapter, ToolAdapterRegistry
-from platform.adapters.burpsuite import BurpSuiteAdapter
-from platform.adapters.pentestgpt import PentestGPTAdapter
-from platform.adapters.metasploit import MetasploitAdapter
-from platform.config import Settings
+from app.adapters.base import BaseToolAdapter, ToolAdapterRegistry
+from app.adapters.burpsuite import BurpSuiteAdapter
+from app.adapters.pentestgpt import PentestGPTAdapter
+from app.adapters.metasploit import MetasploitAdapter
+from app.config import Settings
 
 
 @pytest.mark.asyncio
