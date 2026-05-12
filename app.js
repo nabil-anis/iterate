@@ -657,5 +657,3 @@ function initInteractiveElements() {
         };
     });
 }
-    });
-}
