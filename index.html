@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stitch - Unified Cybersecurity Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Zone A: Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <!-- Placeholder for NOSH AI logo -->
+                <div class="logo-placeholder"></div>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-label">OVERVIEW</div>
+                <a href="#dashboard" class="sidebar-item active" data-view="dashboard">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-label">OPERATIONS</div>
+                <a href="#red-team" class="sidebar-item" data-view="red-team">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                    <span>Red Team</span>
+                </a>
+                <a href="#blue-team" class="sidebar-item" data-view="blue-team">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                    <span>Blue Team</span>
+                    <span class="badge">3</span>
+                </a>
+                <a href="#purple-team" class="sidebar-item" data-view="purple-team">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2v20z"></path></svg>
+                    <span>Purple Team</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-label">MODULES</div>
+                <a href="#vapt" class="sidebar-item" data-view="vapt">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <span>VAPT</span>
+                </a>
+                <a href="#soc" class="sidebar-item" data-view="soc">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                    <span>SOC</span>
+                </a>
+                <a href="#siem" class="sidebar-item" data-view="siem">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    <span>SIEM</span>
+                </a>
+                <a href="#grc" class="sidebar-item" data-view="grc">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                    <span>GRC</span>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-label">INTELLIGENCE</div>
+                <a href="#findings" class="sidebar-item" data-view="findings">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <span>Findings</span>
+                    <span class="badge" style="background: var(--apple-gray-2)">12</span>
+                </a>
+                <a href="#threat-intel" class="sidebar-item" data-view="threat-intel">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg>
+                    <span>Threat Intel</span>
+                </a>
+                <a href="#reports" class="sidebar-item" data-view="reports">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>Reports</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-section" style="margin-top: auto;">
+                <div class="sidebar-label">AI INTERFACE</div>
+                <a href="#chat" class="sidebar-item" data-view="chat">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <span>Agent Chat</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="main-area">
+            <!-- Zone B: Top Bar -->
+            <header class="top-bar">
+                <div class="breadcrumb" id="breadcrumb">Overview / Dashboard</div>
+                <div class="search-container">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" class="search-input" placeholder="Search...">
+                </div>
+                <div class="user-actions">
+                    <button class="icon-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    </button>
+                    <div class="user-avatar"></div>
+                </div>
+            </header>
+
+            <!-- Zone C: Content Canvas -->
+            <main class="content-canvas" id="content-canvas">
+                <section id="dashboard" class="view-section active">
+                    <div class="bento-grid">
+                        <!-- Card A: Risk Score -->
+                        <div class="card span-3 risk-score-card">
+                            <div class="overline">Overall Risk Score</div>
+                            <div class="risk-score-container">
+                                <svg width="120" height="120" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="54" fill="none" stroke="var(--separator)" stroke-width="8" opacity="0.5"/>
+                                    <circle cx="60" cy="60" r="54" fill="none" stroke="var(--low-green)" stroke-width="8" stroke-dasharray="339" stroke-dashoffset="68" stroke-linecap="round" style="transform: rotate(-90deg); transform-origin: 50% 50%;"/>
+                                </svg>
+                                <div class="risk-score-value display-xl">28</div>
+                            </div>
+                            <div class="caption risk-delta">↓ 4% vs last week</div>
+                        </div>
+
+                        <!-- Card B: Findings Summary -->
+                        <div class="card span-3">
+                            <div class="overline">Findings Summary</div>
+                            <div class="findings-list">
+                                <div class="finding-row">
+                                    <div class="finding-label"><span class="severity-dot" style="background: var(--critical-red)"></span>Critical</div>
+                                    <div class="finding-sparkline"><div class="fill" style="width: 20%; background: var(--critical-red)"></div></div>
+                                    <div class="finding-count">3</div>
+                                </div>
+                                <div class="finding-row">
+                                    <div class="finding-label"><span class="severity-dot" style="background: var(--high-orange)"></span>High</div>
+                                    <div class="finding-sparkline"><div class="fill" style="width: 45%; background: var(--high-orange)"></div></div>
+                                    <div class="finding-count">14</div>
+                                </div>
+                                <div class="finding-row">
+                                    <div class="finding-label"><span class="severity-dot" style="background: var(--medium-yellow)"></span>Medium</div>
+                                    <div class="finding-sparkline"><div class="fill" style="width: 80%; background: var(--medium-yellow)"></div></div>
+                                    <div class="finding-count">42</div>
+                                </div>
+                                <div class="finding-row">
+                                    <div class="finding-label"><span class="severity-dot" style="background: var(--low-green)"></span>Low</div>
+                                    <div class="finding-sparkline"><div class="fill" style="width: 15%; background: var(--low-green)"></div></div>
+                                    <div class="finding-count">128</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card C: Active Engagements -->
+                        <div class="card span-6">
+                            <div class="card-header">
+                                <div class="overline">Active Engagements</div>
+                                <a href="#operations" class="caption-link">View all</a>
+                            </div>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tool</th>
+                                        <th>Target</th>
+                                        <th>Progress</th>
+                                        <th>Status</th>
+                                        <th>ETA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nmap Scan</td>
+                                        <td class="mono">10.0.4.0/24</td>
+                                        <td><div class="progress-bar"><div class="fill" style="width: 80%; background: var(--apple-blue)"></div></div></td>
+                                        <td><span class="status-chip" style="background: #E8F0FD; color: var(--apple-blue); border-color: transparent;">Running</span></td>
+                                        <td class="caption">2m 14s</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Web Fuzzer</td>
+                                        <td class="mono">api.stitch.io</td>
+                                        <td><div class="progress-bar"><div class="fill" style="width: 45%; background: var(--apple-blue)"></div></div></td>
+                                        <td><span class="status-chip" style="background: #E8F0FD; color: var(--apple-blue); border-color: transparent;">Running</span></td>
+                                        <td class="caption">14m 30s</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Card D: Team Activity Feed -->
+                        <div class="card span-4 feed-card">
+                            <div class="overline">Team Activity Feed</div>
+                            <div class="feed-list">
+                                <div class="feed-item">
+                                    <div class="feed-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                                    <div class="feed-content">Blue Team closed <span class="mono">ST-492</span></div>
+                                    <div class="feed-time">10m</div>
+                                </div>
+                                <div class="feed-item">
+                                    <div class="feed-icon" style="color: var(--critical-red)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg></div>
+                                    <div class="feed-content">Critical finding on web-prod-1</div>
+                                    <div class="feed-time">1h</div>
+                                </div>
+                                <div class="feed-item">
+                                    <div class="feed-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
+                                    <div class="feed-content">VAPT Scan initiated by AI Agent</div>
+                                    <div class="feed-time">2h</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card E: Compliance Posture -->
+                        <div class="card span-4">
+                            <div class="overline">Compliance Posture</div>
+                            <div class="compliance-tabs">
+                                <span class="active">NIST</span>
+                                <span>ISO27001</span>
+                                <span>PCI-DSS</span>
+                            </div>
+                            <div class="compliance-bars">
+                                <div class="comp-row">
+                                    <div class="comp-label caption">Access Control</div>
+                                    <div class="comp-bar"><div class="fill" style="width: 100%; background: var(--low-green)"></div></div>
+                                </div>
+                                <div class="comp-row">
+                                    <div class="comp-label caption">Data Security</div>
+                                    <div class="comp-bar">
+                                        <div class="fill" style="width: 60%; background: var(--low-green)"></div>
+                                        <div class="fill" style="width: 40%; background: var(--high-orange)"></div>
+                                    </div>
+                                </div>
+                                <div class="comp-row">
+                                    <div class="comp-label caption">Incident Response</div>
+                                    <div class="comp-bar"><div class="fill" style="width: 100%; background: var(--critical-red)"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card F: Top Vulnerabilities -->
+                        <div class="card span-4">
+                            <div class="overline">Top Vulnerabilities</div>
+                            <div class="vuln-list">
+                                <div class="vuln-item">
+                                    <div class="vuln-id mono">CVE-2023-23397</div>
+                                    <span class="badge-pill badge-critical">9.8</span>
+                                    <div class="vuln-asset">exchange.stitch.io</div>
+                                    <span class="badge-pill badge-critical" style="background: transparent; color: var(--critical-red); border: 1px solid var(--critical-red)">PoC</span>
+                                </div>
+                                <div class="vuln-item">
+                                    <div class="vuln-id mono">CVE-2021-44228</div>
+                                    <span class="badge-pill badge-critical">10.0</span>
+                                    <div class="vuln-asset">log-aggregator</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="findings" class="view-section">
+                    <div class="view-toolbar">
+                        <div class="toolbar-left">
+                            <span class="body-m" style="font-weight: 600;">142 findings</span>
+                        </div>
+                        <div class="toolbar-center">
+                            <div class="filter-chips">
+                                <span class="chip">Severity <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></span>
+                                <span class="chip">Team <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></span>
+                                <span class="chip">Status <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg></span>
+                            </div>
+                        </div>
+                        <div class="toolbar-right">
+                            <div class="search-container" style="max-width: 200px; margin-right: 12px;">
+                                <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                <input type="text" class="search-input" placeholder="Search findings...">
+                            </div>
+                            <button class="btn btn-secondary"><svg class="icon" style="margin-right:8px;" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg> Export</button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="padding: 0; overflow: hidden;">
+                        <table class="data-table full-width-table">
+                            <thead>
+                                <tr>
+                                    <th style="padding-left: 24px;">Severity</th>
+                                    <th>Finding ID</th>
+                                    <th>Title</th>
+                                    <th>Asset</th>
+                                    <th>Tool</th>
+                                    <th>CVSS</th>
+                                    <th>Exploit</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="interactive-row" data-drawer="finding-detail-1">
+                                    <td style="padding-left: 24px;"><span class="badge-pill badge-critical">CRITICAL</span></td>
+                                    <td class="mono" style="color: var(--apple-gray-2); font-size: 12px;">ST-942</td>
+                                    <td style="font-weight: 600; color: var(--apple-black); max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Remote Code Execution via Log4j</td>
+                                    <td class="mono">log-aggregator</td>
+                                    <td><span style="font-size: 13px;">Nessus</span></td>
+                                    <td style="font-weight: 600; color: var(--critical-red);">10.0</td>
+                                    <td><span class="exploit-tag tag-red">PoC Available</span></td>
+                                    <td><span class="status-chip status-open">Open</span></td>
+                                    <td class="caption">2h ago</td>
+                                </tr>
+                                <tr class="interactive-row">
+                                    <td style="padding-left: 24px;"><span class="badge-pill badge-high">HIGH</span></td>
+                                    <td class="mono" style="color: var(--apple-gray-2); font-size: 12px;">ST-941</td>
+                                    <td style="font-weight: 600; color: var(--apple-black); max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">SQL Injection in User Login</td>
+                                    <td class="mono">api.stitch.io</td>
+                                    <td><span style="font-size: 13px;">Burp Suite</span></td>
+                                    <td style="font-weight: 600; color: var(--high-orange);">8.5</td>
+                                    <td><span class="exploit-tag tag-orange">Public</span></td>
+                                    <td><span class="status-chip status-open">Open</span></td>
+                                    <td class="caption">5h ago</td>
+                                </tr>
+                                <tr class="interactive-row">
+                                    <td style="padding-left: 24px;"><span class="badge-pill badge-medium">MEDIUM</span></td>
+                                    <td class="mono" style="color: var(--apple-gray-2); font-size: 12px;">ST-938</td>
+                                    <td style="font-weight: 600; color: var(--apple-black); max-width: 240px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Missing Security Headers</td>
+                                    <td class="mono">dashboard.stitch.io</td>
+                                    <td><span style="font-size: 13px;">ZAP</span></td>
+                                    <td style="font-weight: 600; color: var(--medium-yellow);">5.3</td>
+                                    <td><span class="exploit-tag tag-gray">None</span></td>
+                                    <td><span class="status-chip status-remediated">Remediated</span></td>
+                                    <td class="caption">1d ago</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="red-team" class="view-section">
+                    <div class="split-layout">
+                        <!-- Left 60%: Execution Canvas -->
+                        <div class="split-left">
+                            <div class="execution-header">
+                                <div class="engagement-selector">
+                                    <span class="body-m" style="font-weight: 600;">Operation Manticore (Internal Network)</span>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg>
+                                </div>
+                                <div class="execution-controls">
+                                    <div class="segmented-control">
+                                        <button class="active"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg> Run</button>
+                                        <button><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg> Pause</button>
+                                        <button style="color: var(--critical-red)"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><rect x="6" y="6" width="12" height="12"></rect></svg> Stop</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="task-queue">
+                                <!-- Task Card 1 (Complete) -->
+                                <div class="task-card card">
+                                    <div class="drag-handle"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--apple-gray-2)" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></div>
+                                    <div class="task-order mono">01</div>
+                                    <div class="task-content">
+                                        <div class="task-label">Initial Subdomain Enumeration</div>
+                                        <div class="task-tool"><span class="chip" style="padding: 2px 8px; font-size: 11px;">Amass</span></div>
+                                    </div>
+                                    <div class="task-status"><svg viewBox="0 0 24 24" width="20" height="20" fill="var(--low-green)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg></div>
+                                </div>
+                                
+                                <div class="dependency-line"></div>
+
+                                <!-- Task Card 2 (Running) -->
+                                <div class="task-card card active-task">
+                                    <div class="drag-handle"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--apple-gray-2)" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></div>
+                                    <div class="task-order mono" style="color: var(--apple-blue)">02</div>
+                                    <div class="task-content">
+                                        <div class="task-label">Port Scanning Target Range</div>
+                                        <div class="task-tool"><span class="chip" style="padding: 2px 8px; font-size: 11px;">Nmap</span></div>
+                                    </div>
+                                    <div class="task-status">
+                                        <svg class="spinner" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--apple-blue)" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-linecap="round"></circle></svg>
+                                    </div>
+                                </div>
+                                
+                                <div class="dependency-line"></div>
+
+                                <!-- Task Card 3 (Pending) -->
+                                <div class="task-card card pending-task">
+                                    <div class="drag-handle"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--apple-gray-2)" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></div>
+                                    <div class="task-order mono">03</div>
+                                    <div class="task-content">
+                                        <div class="task-label">Vulnerability Scanning HTTP Services</div>
+                                        <div class="task-tool"><span class="chip" style="padding: 2px 8px; font-size: 11px;">Nuclei</span></div>
+                                    </div>
+                                    <div class="task-status"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--separator)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg></div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-secondary add-task-btn" style="width: 100%; margin-top: 24px;">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Add Task
+                            </button>
+                        </div>
+
+                        <!-- Right 40%: Agent Output Stream -->
+                        <div class="split-right">
+                            <div class="agent-terminal">
+                                <div class="terminal-header">
+                                    <span class="caption" style="color: var(--apple-gray-2)">Red Team Agent Stream</span>
+                                    <span class="status-chip" style="background: transparent; color: var(--low-green); border-color: var(--low-green); font-size: 10px;">Live</span>
+                                </div>
+                                <div class="terminal-output mono">
+                                    <div class="term-line info">[10:41:02] Agent initialized. Loading Operation Manticore profile.</div>
+                                    <div class="term-line info">[10:41:05] Starting Task 01: Initial Subdomain Enumeration via Amass.</div>
+                                    <div class="term-line success">[10:43:12] Task 01 complete. Discovered 14 subdomains.</div>
+                                    <div class="term-line info">[10:43:15] Starting Task 02: Port Scanning Target Range (Nmap).</div>
+                                    <div class="term-line warning">[10:44:20] Rate limiting detected on 10.0.4.15. Adjusting delay to T2.</div>
+                                    <div class="term-line info">[10:44:45] Open ports identified on api.stitch.io: 80, 443, 8080.</div>
+                                    <div class="term-line critical">[10:45:10] Discovered unauthorized database exposed on 10.0.4.22:3306!</div>
+                                </div>
+                                <div class="terminal-input-bar">
+                                    <span class="mono" style="color: var(--apple-blue); margin-right: 8px;">></span>
+                                    <input type="text" class="terminal-input mono" placeholder="Send instruction to agent... (Cmd+K)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="blue-team" class="view-section">
+                    <div class="three-col-layout">
+                        <!-- Left 30%: Alerts Feed -->
+                        <div class="col-alerts">
+                            <div class="col-header">
+                                <span class="overline">Active Alerts</span>
+                                <div class="segmented-control" style="transform: scale(0.9); transform-origin: right;">
+                                    <button class="active">Time</button>
+                                    <button>Severity</button>
+                                </div>
+                            </div>
+                            <div class="alerts-feed">
+                                <div class="alert-item active">
+                                    <div class="alert-indicator" style="background: var(--critical-red)"></div>
+                                    <div class="alert-content">
+                                        <div class="alert-title" style="font-weight: 600;">Suspicious PowerShell Execution</div>
+                                        <div class="alert-meta">
+                                            <span class="caption">CrowdStrike Falcon</span>
+                                            <span class="caption" style="color: var(--apple-gray-2)">Just now</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="alert-item">
+                                    <div class="alert-indicator" style="background: var(--high-orange)"></div>
+                                    <div class="alert-content">
+                                        <div class="alert-title">Multiple Failed Login Attempts</div>
+                                        <div class="alert-meta">
+                                            <span class="caption">Okta</span>
+                                            <span class="caption" style="color: var(--apple-gray-2)">12m ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="alert-item">
+                                    <div class="alert-indicator" style="background: var(--medium-yellow)"></div>
+                                    <div class="alert-content">
+                                        <div class="alert-title">Unusual Data Egress Volume</div>
+                                        <div class="alert-meta">
+                                            <span class="caption">Palo Alto</span>
+                                            <span class="caption" style="color: var(--apple-gray-2)">1h ago</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Center 45%: Alert Detail -->
+                        <div class="col-detail">
+                            <div class="detail-header">
+                                <span class="badge-pill badge-critical">CRITICAL</span>
+                                <span class="badge-pill" style="background: var(--surface-white); color: var(--apple-blue); border: 1px solid var(--apple-blue); margin-left: 8px;">AI Confidence: 94%</span>
+                            </div>
+                            <h2 class="display-m" style="margin: 16px 0;">Suspicious PowerShell Execution</h2>
+                            
+                            <div class="detail-block">
+                                <div class="overline">Affected Assets</div>
+                                <div class="asset-list">
+                                    <span class="chip"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="23" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg> WIN-SRV-042 (10.0.8.15)</span>
+                                </div>
+                            </div>
+
+                            <div class="detail-block">
+                                <div class="overline">MITRE ATT&CK</div>
+                                <div class="filter-chips">
+                                    <span class="chip" style="font-family: var(--font-mono); font-size: 11px;">T1059.001</span>
+                                    <span class="chip" style="font-family: var(--font-mono); font-size: 11px;">T1105</span>
+                                </div>
+                            </div>
+
+                            <div class="detail-block">
+                                <div class="overline">AI Root Cause Analysis</div>
+                                <p class="body-m" style="font-style: italic; color: var(--apple-gray-1); background: var(--surface-white); padding: 16px; border-radius: 8px;">
+                                    User "svc_backup" executed an encoded PowerShell payload that attempted to download an external payload from a known malicious IP (192.168.1.100). The execution bypassed local AppLocker policies via living-off-the-land binaries.
+                                </p>
+                            </div>
+
+                            <div class="detail-block">
+                                <div class="overline">Event Timeline</div>
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-time caption">10:42:05</div>
+                                            <div class="timeline-desc body-m">Successful RDP Login by svc_backup</div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot" style="border-color: var(--high-orange)"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-time caption">10:45:12</div>
+                                            <div class="timeline-desc body-m">PowerShell.exe spawned with bypass execution policy</div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <div class="timeline-dot" style="border-color: var(--critical-red)"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-time caption">10:45:15</div>
+                                            <div class="timeline-desc body-m">Network connection initiated to 192.168.1.100:443</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right 25%: Playbook -->
+                        <div class="col-playbook">
+                            <div class="col-header">
+                                <span class="overline">Response Playbook</span>
+                            </div>
+                            
+                            <div class="playbook-steps">
+                                <div class="playbook-step done">
+                                    <div class="step-header">
+                                        <div class="step-check"><svg viewBox="0 0 24 24" width="12" height="12" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg></div>
+                                        <div class="step-title">Isolate Host Network</div>
+                                    </div>
+                                    <div class="step-meta caption">Done • CrowdStrike</div>
+                                </div>
+                                
+                                <div class="playbook-step active">
+                                    <div class="step-header">
+                                        <div class="step-check empty"></div>
+                                        <div class="step-title" style="font-weight: 600;">Disable Compromised Account</div>
+                                    </div>
+                                    <div class="step-content">
+                                        <div class="caption" style="margin-bottom: 8px;">Suspend 'svc_backup' in Active Directory</div>
+                                        <div class="toggle-container">
+                                            <span class="caption">Execute Auto</span>
+                                            <div class="toggle"><div class="thumb"></div></div>
+                                        </div>
+                                        <button class="btn btn-primary" style="width: 100%; height: 32px; font-size: 13px; margin-top: 12px;">Execute Now</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="playbook-step pending">
+                                    <div class="step-header">
+                                        <div class="step-check empty"></div>
+                                        <div class="step-title">Block Malicious IP</div>
+                                    </div>
+                                    <div class="step-meta caption">Est. 1m • Palo Alto</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="chat" class="view-section" style="height: calc(100vh - var(--topbar-height) - 80px); padding: 0;">
+                    <div class="chat-layout">
+                        <!-- Left: History Sidebar -->
+                        <div class="chat-sidebar">
+                            <div class="chat-sidebar-header">
+                                <button class="btn btn-secondary" style="width: 100%; justify-content: center;"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg> New Chat</button>
+                            </div>
+                            <div class="chat-history-list">
+                                <div class="overline" style="padding: 0 16px; margin: 16px 0 8px;">Today</div>
+                                <div class="history-item active">Analyze Log4j Findings</div>
+                                <div class="history-item">Summarize Operation Manticore</div>
+                                
+                                <div class="overline" style="padding: 0 16px; margin: 16px 0 8px;">Previous 7 Days</div>
+                                <div class="history-item">Compliance mapping for PCI-DSS</div>
+                                <div class="history-item">Check firewall rules on Gateway-A</div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Conversation Thread -->
+                        <div class="chat-main">
+                            <div class="chat-messages">
+                                <div class="message user-message">
+                                    <div class="msg-bubble">Are there any critical findings related to Log4j in our current inventory?</div>
+                                </div>
+                                
+                                <div class="message system-message">
+                                    <div class="agent-label">
+                                        <span class="chip" style="background: #F0F6FF; color: var(--apple-blue); border-color: var(--apple-blue); padding: 2px 8px; font-size: 11px; box-shadow: none;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Blue Agent</span>
+                                    </div>
+                                    <div class="msg-card">
+                                        <p>Yes, I found one critical open finding related to Log4j (CVE-2021-44228).</p>
+                                        
+                                        <div class="inline-finding">
+                                            <span class="badge-pill badge-critical">10.0</span>
+                                            <div class="inline-finding-title">Remote Code Execution via Log4j</div>
+                                            <a href="#findings" style="color: var(--apple-blue); text-decoration: none; font-size: 13px;">View Details</a>
+                                        </div>
+                                        
+                                        <p style="margin-top: 12px;">This is affecting the <strong>log-aggregator</strong> service. Would you like me to initiate the standard isolation playbook?</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="message user-message">
+                                    <div class="msg-bubble">Yes, execute the isolation playbook immediately.</div>
+                                </div>
+                                
+                                <div class="message system-message">
+                                    <div class="agent-label">
+                                        <span class="chip" style="background: #FFF2F0; color: var(--critical-red); border-color: var(--critical-red); padding: 2px 8px; font-size: 11px; box-shadow: none;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg> Red Agent</span>
+                                    </div>
+                                    <div class="msg-card">
+                                        <div class="progress-stream">
+                                            <div class="stream-item">
+                                                <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--low-green)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+                                                <span>Verified host identity (10.0.8.44)</span>
+                                            </div>
+                                            <div class="stream-item">
+                                                <svg viewBox="0 0 24 24" width="16" height="16" fill="var(--low-green)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+                                                <span>Applied network isolation tag in CrowdStrike</span>
+                                            </div>
+                                            <div class="stream-item" style="color: var(--apple-blue)">
+                                                <svg class="spinner" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--apple-blue)" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-linecap="round"></circle></svg>
+                                                <span>Awaiting containment confirmation...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-input-area">
+                                <div class="chat-input-wrapper">
+                                    <div class="chat-team-selectors">
+                                        <span class="chip team-selector-chip active"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></span>
+                                        <span class="chip team-selector-chip"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span>
+                                    </div>
+                                    <input type="text" class="chat-input" placeholder="Ask anything about your security posture...">
+                                    <button class="icon-btn send-btn">
+                                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="vapt" class="view-section">
+                    <div class="split-layout">
+                        <!-- Left 60%: Scope Configuration -->
+                        <div class="split-left" style="padding-right: 12px;">
+                            <h2 class="display-m" style="margin-bottom: 24px;">New Assessment</h2>
+                            
+                            <div class="card" style="margin-bottom: 24px;">
+                                <div class="overline" style="margin-bottom: 16px;">1. Target Scope</div>
+                                <div class="form-group">
+                                    <label class="caption" style="display: block; margin-bottom: 8px;">Include Targets</label>
+                                    <div class="tag-input-container" style="border: 1px solid var(--separator); border-radius: 8px; padding: 8px; display: flex; flex-wrap: wrap; gap: 8px; background: var(--pure-white);">
+                                        <span class="chip" style="box-shadow: none; padding: 4px 8px;"><span class="mono">10.0.0.0/16</span> <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>
+                                        <span class="chip" style="box-shadow: none; padding: 4px 8px;"><span class="mono">api.stitch.io</span> <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>
+                                        <input type="text" style="border: none; outline: none; background: transparent; font-size: 15px; font-family: var(--font-mono); min-width: 120px;" placeholder="Add IP or domain...">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 16px;">
+                                    <label class="caption" style="display: block; margin-bottom: 8px;">Exclusions</label>
+                                    <input type="text" class="search-input" style="width: 100%; border-radius: 8px; padding: 0 12px; font-family: var(--font-mono); border: 1px solid var(--separator);" placeholder="e.g. 10.0.5.10">
+                                </div>
+                            </div>
+
+                            <div class="card" style="margin-bottom: 24px;">
+                                <div class="overline" style="margin-bottom: 16px;">2. Test Type</div>
+                                <div class="segmented-control" style="background: var(--surface-white); padding: 4px;">
+                                    <button class="active" style="flex: 1; justify-content: center;">Network</button>
+                                    <button style="flex: 1; justify-content: center;">Web</button>
+                                    <button style="flex: 1; justify-content: center;">Cloud</button>
+                                    <button style="flex: 1; justify-content: center;">LLM</button>
+                                </div>
+                            </div>
+
+                            <div class="card" style="margin-bottom: 24px;">
+                                <div class="overline" style="margin-bottom: 16px;">3. Compliance Mapping</div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                        <div style="width: 18px; height: 18px; border-radius: 5px; background: var(--apple-blue); display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="12" height="12" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg></div>
+                                        <span class="body-m">NIST CSF</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                        <div style="width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--separator);"></div>
+                                        <span class="body-m">ISO 27001</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                        <div style="width: 18px; height: 18px; border-radius: 5px; border: 1.5px solid var(--separator);"></div>
+                                        <span class="body-m">PCI-DSS</span>
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                        <div style="width: 18px; height: 18px; border-radius: 5px; background: var(--apple-blue); display: flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" width="12" height="12" fill="white"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg></div>
+                                        <span class="body-m">HIPAA</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="card" style="margin-bottom: 32px;">
+                                <div class="overline" style="margin-bottom: 16px;">4. Constraints</div>
+                                <div style="margin-bottom: 24px;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <label class="body-m">Max Duration</label>
+                                        <span class="mono">24 Hours</span>
+                                    </div>
+                                    <div style="height: 4px; background: var(--surface-white); border-radius: 2px; position: relative;">
+                                        <div style="position: absolute; left: 0; top: 0; height: 100%; width: 50%; background: var(--apple-blue); border-radius: 2px;"></div>
+                                        <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; background: white; border-radius: 10px; box-shadow: var(--shadow-1);"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                        <label class="body-m">Max API Cost</label>
+                                        <span class="mono">$50.00</span>
+                                    </div>
+                                    <div style="height: 4px; background: var(--surface-white); border-radius: 2px; position: relative;">
+                                        <div style="position: absolute; left: 0; top: 0; height: 100%; width: 25%; background: var(--apple-blue); border-radius: 2px;"></div>
+                                        <div style="position: absolute; left: 25%; top: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; background: white; border-radius: 10px; box-shadow: var(--shadow-1);"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" style="width: 100%; height: 48px; font-size: 17px; margin-bottom: 24px;">Launch Assessment</button>
+                        </div>
+
+                        <!-- Right 40%: Assessment Results -->
+                        <div class="split-right" style="padding-left: 12px; overflow-y: auto;">
+                            <h2 class="display-m" style="margin-bottom: 24px;">Live Progress</h2>
+                            
+                            <div class="card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; margin-bottom: 24px;">
+                                <div class="risk-score-container" style="width: 160px; height: 160px;">
+                                    <svg width="160" height="160" viewBox="0 0 160 160">
+                                        <circle cx="80" cy="80" r="74" fill="none" stroke="var(--separator)" stroke-width="8" opacity="0.5"/>
+                                        <circle cx="80" cy="80" r="74" fill="none" stroke="var(--apple-blue)" stroke-width="8" stroke-dasharray="465" stroke-dashoffset="186" stroke-linecap="round" style="transform: rotate(-90deg); transform-origin: 50% 50%; transition: all 1s ease;"/>
+                                    </svg>
+                                    <div class="risk-score-value display-l" style="font-size: 40px; color: var(--apple-blue);">60%</div>
+                                </div>
+                                <div class="overline" style="margin-top: 24px;">Phase: Exploitation</div>
+                                <div class="caption" style="color: var(--apple-gray-2); margin-top: 8px;">Est. 45 mins remaining</div>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 12px; padding-bottom: 40px;">
+                                <!-- Recon -->
+                                <div class="card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--low-green)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+                                        <span style="font-weight: 600;">1. Reconnaissance</span>
+                                    </div>
+                                    <span class="status-chip status-remediated">Complete</span>
+                                </div>
+                                
+                                <!-- Inventory -->
+                                <div class="card" style="padding: 16px; display: flex; align-items: center; justify-content: space-between;">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--low-green)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+                                        <span style="font-weight: 600;">2. Inventory & Mapping</span>
+                                    </div>
+                                    <span class="badge-pill" style="background: var(--surface-white); color: var(--apple-black);">14 Assets</span>
+                                </div>
+
+                                <!-- Scanning -->
+                                <div class="card" style="padding: 16px;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--low-green)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+                                            <span style="font-weight: 600;">3. Vulnerability Scanning</span>
+                                        </div>
+                                        <span class="badge-pill badge-high">28 Findings</span>
+                                    </div>
+                                </div>
+
+                                <!-- Exploitation -->
+                                <div class="card" style="padding: 16px; border: 1px solid var(--apple-blue); box-shadow: 0 0 0 1px var(--apple-blue);">
+                                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                                        <div style="display: flex; align-items: center; gap: 12px;">
+                                            <svg class="spinner" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--apple-blue)" stroke-width="2"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-linecap="round"></circle></svg>
+                                            <span style="font-weight: 600; color: var(--apple-blue);">4. Exploitation</span>
+                                        </div>
+                                        <span class="status-chip" style="background: #E8F0FD; color: var(--apple-blue); border-color: transparent;">Running</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="grc" class="view-section">
+                    <div class="view-toolbar" style="margin-bottom: 24px;">
+                        <div class="toolbar-left" style="gap: 24px;">
+                            <div class="segmented-control" style="background: transparent; border: none; padding: 0;">
+                                <button class="active" style="border-radius: 0; border-bottom: 2px solid var(--apple-blue); background: transparent; padding-bottom: 8px;">NIST CSF 2.0</button>
+                                <button style="border-radius: 0; border-bottom: 2px solid transparent; background: transparent; padding-bottom: 8px;">ISO 27001:2022</button>
+                                <button style="border-radius: 0; border-bottom: 2px solid transparent; background: transparent; padding-bottom: 8px;">PCI-DSS 4.0</button>
+                            </div>
+                        </div>
+                        <div class="toolbar-right">
+                            <button class="btn btn-primary"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Generate Audit Report</button>
+                        </div>
+                    </div>
+
+                    <div class="split-layout">
+                        <!-- Left 70%: Control Matrix -->
+                        <div class="split-left" style="flex: 7; padding-right: 24px;">
+                            <div class="card" style="padding: 0; overflow: hidden;">
+                                <div style="padding: 16px 24px; border-bottom: 1px solid var(--separator); display: flex; justify-content: space-between; align-items: center; background: #F9F9FA;">
+                                    <span class="body-m" style="font-weight: 600;">Identify (ID) - Asset Management</span>
+                                    <div class="progress-bar" style="width: 200px;"><div class="fill" style="width: 85%; background: var(--low-green)"></div></div>
+                                </div>
+                                <table class="data-table full-width-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="padding-left: 24px; width: 100px;">Control</th>
+                                            <th>Description</th>
+                                            <th style="width: 120px;">Status</th>
+                                            <th>Evidence</th>
+                                            <th style="width: 80px;">Findings</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding-left: 24px;"><span class="mono">ID.AM-01</span></td>
+                                            <td style="font-weight: 500;">Inventories of hardware managed by the organization are maintained.</td>
+                                            <td><span class="status-chip status-remediated">Compliant</span></td>
+                                            <td>
+                                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                                    <span class="chip" style="font-size: 11px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> CrowdStrike Sync</span>
+                                                    <span class="chip" style="font-size: 11px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> AWS Config</span>
+                                                </div>
+                                            </td>
+                                            <td style="text-align: center;"><span class="caption" style="color: var(--apple-gray-2)">0</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 24px;"><span class="mono">ID.AM-02</span></td>
+                                            <td style="font-weight: 500;">Inventories of software, services, and systems are maintained.</td>
+                                            <td><span class="status-chip" style="background: #FFF2F0; color: var(--high-orange); border-color: transparent;">At Risk</span></td>
+                                            <td><span class="caption" style="color: var(--high-orange)">Manual audit required (Overdue)</span></td>
+                                            <td style="text-align: center;"><span class="badge-pill badge-medium">2</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-left: 24px;"><span class="mono">ID.AM-05</span></td>
+                                            <td style="font-weight: 500;">Assets are prioritized based on classification, criticality, and business value.</td>
+                                            <td><span class="status-chip status-open">Non-Compliant</span></td>
+                                            <td><span class="caption" style="color: var(--critical-red)">Missing tags on 45% of cloud resources</span></td>
+                                            <td style="text-align: center;"><span class="badge-pill badge-high">1</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div style="padding: 16px 24px; border-bottom: 1px solid var(--separator); border-top: 1px solid var(--separator); display: flex; justify-content: space-between; align-items: center; background: #F9F9FA;">
+                                    <span class="body-m" style="font-weight: 600;">Protect (PR) - Identity Management</span>
+                                    <div class="progress-bar" style="width: 200px;"><div class="fill" style="width: 100%; background: var(--low-green)"></div></div>
+                                </div>
+                                <table class="data-table full-width-table">
+                                    <tbody>
+                                        <tr>
+                                            <td style="padding-left: 24px; width: 100px;"><span class="mono">PR.AA-01</span></td>
+                                            <td><span style="font-weight: 500;">Identities and credentials are managed.</span></td>
+                                            <td style="width: 120px;"><span class="status-chip status-remediated">Compliant</span></td>
+                                            <td>
+                                                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                                    <span class="chip" style="font-size: 11px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg> Okta Policy</span>
+                                                </div>
+                                            </td>
+                                            <td style="width: 80px; text-align: center;"><span class="caption" style="color: var(--apple-gray-2)">0</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Right 30%: Overview Panel -->
+                        <div class="split-right" style="flex: 3;">
+                            <div class="card" style="margin-bottom: 24px; text-align: center;">
+                                <div class="overline" style="margin-bottom: 16px; text-align: left;">NIST CSF 2.0 Posture</div>
+                                <div class="risk-score-container" style="width: 140px; height: 140px; margin: 0 auto 16px;">
+                                    <svg width="140" height="140" viewBox="0 0 140 140">
+                                        <circle cx="70" cy="70" r="60" fill="none" stroke="var(--separator)" stroke-width="12" opacity="0.3"/>
+                                        <circle cx="70" cy="70" r="60" fill="none" stroke="var(--low-green)" stroke-width="12" stroke-dasharray="377" stroke-dashoffset="68" stroke-linecap="round" style="transform: rotate(-90deg); transform-origin: 50% 50%;"/>
+                                    </svg>
+                                    <div class="risk-score-value display-l" style="font-size: 32px; color: var(--apple-black);">82%</div>
+                                </div>
+                                <div class="caption" style="color: var(--low-green);">+3% since last month</div>
+                                
+                                <div style="display: flex; justify-content: space-between; margin-top: 24px; text-align: left;">
+                                    <div>
+                                        <div class="caption">Controls</div>
+                                        <div class="display-m">108</div>
+                                    </div>
+                                    <div>
+                                        <div class="caption">Compliant</div>
+                                        <div class="display-m" style="color: var(--low-green);">89</div>
+                                    </div>
+                                    <div>
+                                        <div class="caption">Gaps</div>
+                                        <div class="display-m" style="color: var(--high-orange);">19</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="overline" style="margin-bottom: 16px;">Recent Changes</div>
+                                <div class="timeline" style="margin-top: 0;">
+                                    <div class="timeline-item" style="margin-bottom: 16px;">
+                                        <div class="timeline-dot" style="border-color: var(--low-green)"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-time caption">Today, 09:12 AM</div>
+                                            <div class="body-m" style="font-size: 13px;">Control <span class="mono">PR.DS-01</span> marked Compliant via automated evidence (AWS KMS).</div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item" style="margin-bottom: 16px;">
+                                        <div class="timeline-dot" style="border-color: var(--high-orange)"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-time caption">Yesterday, 14:30 PM</div>
+                                            <div class="body-m" style="font-size: 13px;">Control <span class="mono">ID.AM-02</span> status degraded to At Risk due to missing vulnerability scans on 5 new instances.</div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item" style="margin-bottom: 0;">
+                                        <div class="timeline-dot"></div>
+                                        <div class="timeline-content">
+                                            <div class="timeline-time caption">May 8, 2026</div>
+                                            <div class="body-m" style="font-size: 13px;">User Access Review Q2 initiated. Evidence collection pending for <span class="mono">PR.AA-05</span>.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Detail Drawer (Slide-in) -->
+    <div class="drawer-backdrop" id="drawer-backdrop"></div>
+    <div class="detail-drawer" id="detail-drawer">
+        <div class="drawer-header">
+            <h2 class="drawer-title" id="drawer-title">Detail Title</h2>
+            <button class="icon-btn" id="close-drawer">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="drawer-content" id="drawer-content">
+            <!-- Content populated via JS -->
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
